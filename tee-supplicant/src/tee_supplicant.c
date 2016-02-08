@@ -477,6 +477,9 @@ int main(int argc, char *argv[])
 				process_rpmb(fd, &request);
 				break;
 
+			case TEE_SOCKET_TCP_OPEN:
+				printf("tee-supplicant: got TEE_SOCKET_TCP_OPEN\n");
+
 			default:
 				EMSG("Cmd [0x%" PRIx32 "] not supported",
 				     request.cmd);
