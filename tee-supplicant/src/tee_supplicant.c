@@ -414,6 +414,43 @@ out:
 	OUTMSG();
 }
 
+typedef enum TEE_ipSocket_ipVersion_e {
+        TEE_IP_VERSION_DC = 0, /* don’t care */
+        TEE_IP_VERSION_4 = 1,
+        TEE_IP_VERSION_6 = 2                                                                                                                                              
+} TEE_ipSocket_ipVersion;
+
+/* declare the client setup struct variables */
+typedef struct TEE_tcpSocket_Setup_s {
+        TEE_ipSocket_ipVersion ipVersion;
+        char *server_addr;
+        int server_port;
+} TEE_tcpSocket_Setup;
+
+struct tcp_socket_context {
+        int sockfd;
+        uint32_t *protocol_error;
+};
+
+static void process_socket(int fd, struct tee_rpc_invoke *inv)
+{
+	TEEC_SharedMemory shm;
+	TEE_tcpSocket_Setup *s = NULL;
+
+	if (get_param(fd, inv, 0, &shm)) {
+		inv->res = TEEC_ERROR_BAD_PARAMETERS;
+		goto out;
+	}
+
+	s = shm.buffer;
+
+	inv->res = TEEC_SUCCESS;
+	EMSG("setup.server_port %d", s->server_port);
+
+out:
+	free_param(&shm);
+}
+
 int main(int argc, char *argv[])
 {
 	int fd;
@@ -478,7 +515,8 @@ int main(int argc, char *argv[])
 				break;
 
 			case TEE_SOCKET_TCP_OPEN:
-				printf("tee-supplicant: got TEE_SOCKET_TCP_OPEN\n");
+				EMSG("got TEE_SOCKET_TCP_OPEN");
+				process_socket(fd, &request);
 
 			default:
 				EMSG("Cmd [0x%" PRIx32 "] not supported",
