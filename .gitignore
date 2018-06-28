@@ -14,3 +14,11 @@ Makefile
 out
 .project
 *.swp
+foo
+bar
+new
+testing_boot
+testing_a_full_cycle
+testing_xtest
+test_another_full_cycle
+test_checkpatch
