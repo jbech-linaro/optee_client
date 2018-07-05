@@ -14,3 +14,4 @@ Makefile
 out
 .project
 *.swp
+let's not ignore gitignore
