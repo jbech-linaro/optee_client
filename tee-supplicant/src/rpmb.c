@@ -532,7 +532,6 @@ static int ioctl_emu(int fd, unsigned long request, ...)
 
 	case MMC_READ_MULTIPLE_BLOCK:
 		frm = (struct rpmb_data_frame *)(uintptr_t)cmd->data_ptr;
-		msg_type = ntohs(frm->msg_type);
 
 		switch (mem->last_op.msg_type) {
 		case RPMB_MSG_TYPE_REQ_AUTH_KEY_PROGRAM:
