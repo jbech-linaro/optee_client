@@ -1,0 +1,5 @@
+run_local_definitions: True
+
+build:
+        - cmd: sleep 10
+          timeout: 15
