@@ -1,4 +1,4 @@
-run_local_definitions: False
+run_local_definitions: True
 
 build:
         - cmd: sleep 10
